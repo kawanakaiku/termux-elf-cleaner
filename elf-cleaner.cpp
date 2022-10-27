@@ -197,6 +197,14 @@ bool process_elf(uint8_t* bytes, size_t elf_file_size, char const* file_name)
 			if (!dry_run)
 				section_header_entry->sh_type = SHT_NULL;
 		}
+		else if (section_header_entry->sh_type == 0x60009990 ||
+			 section_header_entry->sh_type == 0x60009991) {
+			if (!quiet)
+				printf("%s: Removing OS-specific section from '%s'\n",
+				       PACKAGE_NAME, file_name);
+			if (!dry_run)
+				section_header_entry->sh_type = SHT_NULL;
+		}
 	}
 	return true;
 }
